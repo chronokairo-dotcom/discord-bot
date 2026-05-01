@@ -25,6 +25,22 @@ npm start
 - `/ping` — latência
 - `/say texto:<msg>` — bot ecoa a mensagem
 - `/chaos` — vibe caótica aleatória
+- `/chat mensagem:<msg>` — conversa com o bot via LLM
+- `/forget` — limpa histórico de conversa do canal
+
+## Modo conversacional
+
+Menciona o bot (`@bot oi tudo bem?`) ou manda DM e ele responde via LLM com personalidade Laciels.
+Mantém memória curta por canal (~12 turnos) que reseta no restart ou com `/forget`.
+
+### Configuração do LLM
+
+Funciona com qualquer API OpenAI-compatível:
+
+- **OpenAI:** `LLM_BASE_URL=https://api.openai.com/v1` · `LLM_MODEL=gpt-4o-mini`
+- **Groq:** `LLM_BASE_URL=https://api.groq.com/openai/v1` · `LLM_MODEL=llama-3.3-70b-versatile`
+- **OpenRouter:** `LLM_BASE_URL=https://openrouter.ai/api/v1` · `LLM_MODEL=anthropic/claude-3.5-sonnet`
+- **Local (llama.cpp/ollama):** `LLM_BASE_URL=http://localhost:11434/v1` · `LLM_MODEL=llama3.1`
 
 ## Estrutura
 
