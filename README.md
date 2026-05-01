@@ -56,6 +56,43 @@ src/
 
 Adicionar comando novo: cria `src/commands/<nome>.js` exportando `{ data, execute }`, roda `npm run deploy`.
 
+## Systemd service
+
+O bot roda como serviço `discord-bot.service` (auto-start no boot, restart on failure).
+
+**Unit file:** `/etc/systemd/system/discord-bot.service`
+
+### Comandos do dia-a-dia
+
+```bash
+systemctl status discord-bot      # ver status
+systemctl restart discord-bot     # reiniciar (depois de mexer em .env ou code)
+systemctl stop discord-bot        # parar
+systemctl start discord-bot       # subir
+systemctl disable discord-bot     # tirar do boot
+systemctl enable discord-bot      # voltar pro boot
+journalctl -u discord-bot -f      # logs ao vivo
+journalctl -u discord-bot -n 100  # últimas 100 linhas
+```
+
+### Detalhes
+
+- `WorkingDirectory`: `/root/.openclaw/workspace/discord-bot`
+- `EnvironmentFile`: `.env` do projeto (mexeu lá → `systemctl restart discord-bot`)
+- `Restart=on-failure` com `RestartSec=5`
+- Logs vão pro journald (identifier: `discord-bot`)
+- Hardening básico: `NoNewPrivileges`, `PrivateTmp`, `ProtectSystem=full`
+
+### Atualizar o bot
+
+```bash
+cd /root/.openclaw/workspace/discord-bot
+git pull
+npm install                       # se package.json mudou
+npm run deploy                    # se comandos mudaram
+systemctl restart discord-bot
+```
+
 ## License
 
 MIT
